@@ -2,16 +2,16 @@
 export interface IVirtualDOM {
   tag: keyof HTMLElementTagNameMap;
   props: Record<string, unknown> | null;
-  children?: VirtualDOM[];
+  children?: VirtualNode[];
 }
 
 // HTML Tag가 없는 노드
 export type TextNode = string | number | Array<unknown> | undefined | null;
 // 모든 노드
-export type VirtualNode = IVirtualDOM | TextNode;
+export type VirtualNode = VirtualDOM | TextNode;
 // Virtual DOM 노드
 export interface VirtualDOM {
-  node: VirtualNode;
+  node: IVirtualDOM;
 }
 
 export interface DefaultProps {

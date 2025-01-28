@@ -1,5 +1,5 @@
 import { VirtualDOM, VirtualNode, Component } from "./types";
-import { checkIsVirtualNode } from "./utils";
+import { checkIsVirtualNode, isTextNode } from "./utils";
 
 export function createElement(
   component: keyof HTMLElementTagNameMap | Component,
@@ -11,19 +11,27 @@ export function createElement(
     return component({ ...props, children });
   }
 
+  const flattenedChildren = (
+    children.flat(Infinity) as (VirtualDOM | VirtualNode)[]
+  ).map((v) => {
+    if (checkIsVirtualNode(v)) {
+      return v;
+    }
+    if (isTextNode(v)) {
+      return v;
+    }
+    return "";
+  });
+
   // HTML 요소
   return {
     node: {
       tag: component,
       props,
-      children: children.flat(Infinity).map((v) => {
-        if (!checkIsVirtualNode(v as VirtualDOM | VirtualNode)) {
-          return { node: v } as VirtualDOM;
-        }
-        return v;
-      }) as VirtualDOM[],
+      children: flattenedChildren,
     },
   };
 }
 
-export const jsx = { createElement };
+export const jsx = createElement;
+export const jsxs = createElement;
