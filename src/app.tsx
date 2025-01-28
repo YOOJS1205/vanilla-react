@@ -1,7 +1,7 @@
 const App = () => (
   <div className="app">
     <Header />
-    <h1>Hello, JSX!</h1>
+    <h1 style={{ backgroundColor: "red" }}>Hello, JSX!</h1>
     <button onClick={() => alert("Clicked!")}>Click Me</button>
   </div>
 );
