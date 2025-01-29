@@ -1,5 +1,5 @@
 import App from "./app.tsx";
-import render from "./libs/jsx/render.ts";
+import { render } from "./libs/jsx/render.ts";
 
 const container = document.getElementById("app");
 
