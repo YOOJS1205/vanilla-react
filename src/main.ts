@@ -6,5 +6,5 @@ const container = document.getElementById("app");
 console.log(App);
 
 if (container) {
-  render(App(), container);
+  render(App, container);
 }
