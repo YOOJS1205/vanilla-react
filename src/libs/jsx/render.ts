@@ -1,9 +1,15 @@
 import createDOMElement from "./createDOMElement";
 
+let currentVirtualDOM: JSX.Element | null = null;
+let currentContainer: HTMLElement | null = null;
+
 const render = (virtualDOM: JSX.Element, container: HTMLElement): void => {
   if (!container) {
     throw new Error("컨테이너 요소가 없습니다.");
   }
+
+  currentVirtualDOM = virtualDOM;
+  currentContainer = container;
 
   try {
     container.innerHTML = "";
@@ -20,4 +26,12 @@ const render = (virtualDOM: JSX.Element, container: HTMLElement): void => {
   }
 };
 
-export default render;
+const rerender = () => {
+  if (!currentVirtualDOM || !currentContainer) {
+    throw new Error("초기 렌더링이 필요합니다.");
+  }
+
+  render(currentVirtualDOM, currentContainer);
+};
+
+export { render, rerender };
