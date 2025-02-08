@@ -1,5 +1,5 @@
 // HTML Tag가 없는 노드
-export type TextNode = string | number | Array<unknown> | undefined | null;
+export type TextNode = string | number | Array<VirtualNode> | undefined | null;
 
 // Virtual DOM 노드
 export interface VirtualDOM {

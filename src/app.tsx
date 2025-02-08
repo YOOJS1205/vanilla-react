@@ -6,11 +6,7 @@ const App = () => {
   return (
     <div className="app">
       <Header />
-      <h1 style={{ backgroundColor: "red" }}>Hello, JSX!</h1>
-      <div>
-        <p>현재 카운트: {count}</p>
-        <button onClick={() => setCount((prev) => prev + 1)}>증가</button>
-      </div>
+      <h1>Title!!</h1>
     </div>
   );
 };
