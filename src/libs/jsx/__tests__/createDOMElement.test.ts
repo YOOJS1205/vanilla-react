@@ -3,7 +3,7 @@
  */
 
 import { createElement } from "@/libs/jsx/jsx-runtime";
-import { VirtualNode } from "../types";
+import { VirtualDOM, VirtualNode } from "../types";
 import createDOMElement from "../createDOMElement";
 
 describe("test createDOMElement(): Virtual DOM을 실제 DOM 요소로 변환하는 함수", () => {
@@ -33,6 +33,55 @@ describe("test createDOMElement(): Virtual DOM을 실제 DOM 요소로 변환하
       // then
       expect(result.nodeType).toBe(Node.TEXT_NODE);
       expect(result.textContent).toBe("Hello, World!");
+    });
+  });
+
+  describe("TextNode 처리는 아래와 같다.", () => {
+    it("문자열을 처리한다.", () => {
+      const result = createDOMElement("Hello");
+      expect(result.textContent).toBe("Hello");
+    });
+
+    it("숫자를 처리한다.", () => {
+      const result = createDOMElement(42);
+      expect(result.textContent).toBe("42");
+    });
+
+    it("null을 빈 문자열로 처리한다.", () => {
+      const result = createDOMElement(null);
+      expect(result.textContent).toBe("");
+    });
+
+    it("undefined를 빈 문자열로 처리한다.", () => {
+      const result = createDOMElement(undefined);
+      expect(result.textContent).toBe("");
+    });
+
+    it("배열을 처리한다.", () => {
+      const array = [
+        "Hello",
+        42,
+        {
+          node: {
+            tag: "span",
+            props: null,
+            children: ["World"],
+          },
+        },
+      ] as VirtualNode[];
+
+      const result = createDOMElement(array);
+
+      expect(result.childNodes.length).toBe(3);
+      expect(result.childNodes[0].textContent).toBe("Hello");
+      expect(result.childNodes[1].textContent).toBe("42");
+      expect(result.childNodes[2].nodeName.toLowerCase()).toBe("span");
+      expect(result.childNodes[2].textContent).toBe("World");
+    });
+
+    it("빈 배열을 처리한다.", () => {
+      const result = createDOMElement([]);
+      expect(result.childNodes.length).toBe(0);
     });
   });
 
@@ -94,7 +143,7 @@ describe("test createDOMElement(): Virtual DOM을 실제 DOM 요소로 변환하
           },
         },
         "World",
-      ];
+      ] as VirtualDOM[];
 
       const virtualDOM = createElement(tag, props, children);
 
