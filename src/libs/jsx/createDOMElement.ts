@@ -26,7 +26,9 @@ const createDOMElement = (virtual: VirtualNode): Node => {
     const element = document.createElement(tag);
 
     if (props) {
-      Object.entries(props).forEach(([key, value]) => {
+      const { children: _, ...restProps } = props;
+
+      Object.entries(restProps).forEach(([key, value]) => {
         if (key.startsWith("on") && typeof value === "function") {
           const eventName = key.toLowerCase().substring(2);
           element.addEventListener(eventName, value as EventListener);
@@ -38,6 +40,8 @@ const createDOMElement = (virtual: VirtualNode): Node => {
           );
         } else if (key === "className") {
           element.setAttribute("class", String(value));
+        } else if (key === "value" && element instanceof HTMLInputElement) {
+          element.value = String(value);
         } else {
           element.setAttribute(key, String(value));
         }

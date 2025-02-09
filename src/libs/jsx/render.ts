@@ -27,6 +27,7 @@ const createRenderer = () => {
           : action;
 
       if (shallowEqual(states[stateIndex], nextState)) return;
+
       states[stateIndex] = nextState;
 
       rerender();
@@ -42,6 +43,10 @@ const createRenderer = () => {
   ): void => {
     if (!container) {
       throw new Error("컨테이너 요소가 없습니다.");
+    }
+
+    if (!(container instanceof HTMLElement)) {
+      throw new Error("유효하지 않은 컨테이너 요소가 없습니다.");
     }
 
     if (!currentComponent || !currentContainer) {
